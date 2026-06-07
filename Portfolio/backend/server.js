@@ -50,15 +50,57 @@ app.post("/api/contact", async (req, res) => {
         ? `[Portfolio] ${subject} — de ${name}`
         : `[Portfolio] Nouveau message de ${name}`,
       html: `
-        <div style="font-family:system-ui,sans-serif;max-width:600px;margin:0 auto">
-          <h2 style="color:#059669">Nouveau message</h2>
-          <table style="width:100%;border-collapse:collapse;margin:16px 0">
-            <tr><td style="padding:8px;font-weight:600;border-bottom:1px solid #e5e7eb">Nom</td><td style="padding:8px;border-bottom:1px solid #e5e7eb">${name}</td></tr>
-            <tr><td style="padding:8px;font-weight:600;border-bottom:1px solid #e5e7eb">Email</td><td style="padding:8px;border-bottom:1px solid #e5e7eb">${email}</td></tr>
-            ${subject ? `<tr><td style="padding:8px;font-weight:600;border-bottom:1px solid #e5e7eb">Sujet</td><td style="padding:8px;border-bottom:1px solid #e5e7eb">${subject}</td></tr>` : ""}
+        <!DOCTYPE html>
+        <html>
+        <head><meta charset="utf-8"></head>
+        <body style="margin:0;padding:0;background:#f4f5f7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f5f7;padding:40px 20px">
+            <tr>
+              <td align="center">
+                <table role="presentation" width="540" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.06)">
+                  <tr>
+                    <td style="background:#059669;padding:32px 40px 24px;text-align:center">
+                      <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:-0.5px">📬 Nouveau message</h1>
+                      <p style="margin:8px 0 0;color:#a7f3d0;font-size:14px">depuis votre portfolio</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:32px 40px">
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="100" style="padding:10px 0;font-size:13px;font-weight:600;color:#6b7280;vertical-align:top;border-bottom:1px solid #f3f4f6">Nom</td>
+                          <td style="padding:10px 0;font-size:15px;color:#111827;border-bottom:1px solid #f3f4f6">${name}</td>
+                        </tr>
+                        <tr>
+                          <td width="100" style="padding:10px 0;font-size:13px;font-weight:600;color:#6b7280;vertical-align:top;border-bottom:1px solid #f3f4f6">Email</td>
+                          <td style="padding:10px 0;font-size:15px;color:#111827;border-bottom:1px solid #f3f4f6"><a href="mailto:${email}" style="color:#059669;text-decoration:none">${email}</a></td>
+                        </tr>
+                        ${subject ? `<tr>
+                          <td width="100" style="padding:10px 0;font-size:13px;font-weight:600;color:#6b7280;vertical-align:top;border-bottom:1px solid #f3f4f6">Sujet</td>
+                          <td style="padding:10px 0;font-size:15px;color:#111827;border-bottom:1px solid #f3f4f6">${subject}</td>
+                        </tr>` : ""}
+                        <tr>
+                          <td width="100" style="padding:10px 0;font-size:13px;font-weight:600;color:#6b7280;vertical-align:top">Date</td>
+                          <td style="padding:10px 0;font-size:15px;color:#6b7280">${new Date().toLocaleDateString("fr-FR", { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" })}</td>
+                        </tr>
+                      </table>
+                      <div style="margin:24px 0 0;background:#f9fafb;border-left:4px solid #059669;padding:20px;border-radius:8px">
+                        <p style="margin:0 0 8px;font-size:13px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px">Message</p>
+                        <p style="margin:0;font-size:15px;color:#374151;line-height:1.7;white-space:pre-wrap">${message}</p>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="background:#f9fafb;padding:20px 40px;text-align:center;border-top:1px solid #f3f4f6">
+                      <p style="margin:0;font-size:12px;color:#9ca3af">Cet email a été envoyé depuis le formulaire de contact de <a href="https://portfolio-1kq8.onrender.com" style="color:#059669;text-decoration:none">votre portfolio</a>.</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
           </table>
-          <div style="background:#f9fafb;border-left:4px solid #059669;padding:16px;border-radius:4px"><p style="margin:0;white-space:pre-wrap">${message}</p></div>
-        </div>`,
+        </body>
+        </html>`,
     });
 
     if (error) {
