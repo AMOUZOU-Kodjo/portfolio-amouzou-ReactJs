@@ -6,6 +6,11 @@ import path from "path";
 import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.join(__dirname, ".env") });
+
+process.on("unhandledRejection", (err) => {
+  console.error("UNHANDLED REJECTION:", err);
+});
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -26,6 +31,8 @@ if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
   });
   console.log("Email configuré ✅");
 } else {
