@@ -38,7 +38,9 @@ export default function Contact() {
     setStatus({ type: "", text: "" });
 
     try {
-      const res = await fetch(`${API_URL}/api/contact`, {
+      const url = `${API_URL}/api/contact`;
+      console.log("Envoi vers:", url);
+      const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
