@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import nodemailer from "nodemailer";
+import sgMail from "@sendgrid/mail";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -20,23 +20,13 @@ app.use(express.json());
 const distPath = path.join(__dirname, "..", "dist");
 app.use(express.static(distPath));
 
-let transporter = null;
-if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-  transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
-    requireTLS: true,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-  });
-  console.log("Email configuré ✅");
+let emailReady = false;
+if (process.env.SENDGRID_API_KEY && process.env.EMAIL_USER) {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  emailReady = true;
+  console.log("Email configuré ✅ (SendGrid)");
 } else {
-  console.log("Email non configuré ⚠️ (EMAIL_USER/EMAIL_PASS manquants)");
+  console.log("Email non configuré ⚠️ (SENDGRID_API_KEY manquant)");
 }
 
 app.post("/api/contact", async (req, res) => {
@@ -46,15 +36,15 @@ app.post("/api/contact", async (req, res) => {
     return res.status(400).json({ error: "Nom, email et message sont requis." });
   }
 
-  if (!transporter) {
+  if (!emailReady) {
     return res.status(500).json({
       error: "Service d'envoi non configuré. Contactez l'administrateur.",
     });
   }
 
   try {
-    await transporter.sendMail({
-      from: `"${name}" <${process.env.EMAIL_USER}>`,
+    await sgMail.send({
+      from: process.env.EMAIL_USER,
       replyTo: email,
       to: process.env.EMAIL_USER,
       subject: subject
@@ -74,7 +64,7 @@ app.post("/api/contact", async (req, res) => {
 
     res.json({ success: true, message: "Message envoyé avec succès !" });
   } catch (err) {
-    console.error("Erreur email:", err.message);
+    console.error("Erreur email:", err.response?.body || err.message);
     res.status(500).json({ error: "Erreur lors de l'envoi. Vérifiez les identifiants email." });
   }
 });
@@ -82,7 +72,7 @@ app.post("/api/contact", async (req, res) => {
 app.get("/api/health", (_req, res) => {
   res.json({
     status: "ok",
-    email: transporter ? "configuré" : "non configuré",
+    email: emailReady ? "configuré" : "non configuré",
   });
 });
 
