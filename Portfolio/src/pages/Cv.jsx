@@ -1,5 +1,4 @@
-import { useRef } from "react";
-import { Download, GraduationCap, Briefcase, Code2, Mail, Phone, MapPin, Globe, Heart, Users, Printer } from "lucide-react";
+import { GraduationCap, Briefcase, Code2, Mail, Phone, MapPin, Globe, Heart, Users } from "lucide-react";
 import photo from "../assets/IMG-20260402-WA0064.jpg";
 
 const experience = [
@@ -54,143 +53,14 @@ const languages = [
 ];
 
 export default function Cv() {
-  const cvRef = useRef();
-
-  const downloadPDF = () => {
-    const content = cvRef.current.innerHTML;
-    const style = document.querySelector("style[data-cv-print]")?.innerHTML || "";
-    const printWindow = window.open("", "_blank");
-    printWindow.document.write(`
-      <html>
-      <head>
-        <title>CV - Kodjo AMOUZOU</title>
-        <style>
-          @page { margin: 15mm; size: A4; }
-          * { margin: 0; padding: 0; box-sizing: border-box; }
-          body {
-            font-family: system-ui, -apple-system, sans-serif;
-            color: #374151;
-            font-size: 11pt;
-            line-height: 1.5;
-            background: white;
-            padding: 0;
-            max-width: 800px;
-            margin: 0 auto;
-          }
-          .no-print { display: none !important; }
-          .flex { display: flex; }
-          .flex-col { flex-direction: column; }
-          .items-center { align-items: center; }
-          .items-start { align-items: flex-start; }
-          .justify-between { justify-content: space-between; }
-          .gap-1 { gap: 4px; }
-          .gap-2 { gap: 8px; }
-          .gap-3 { gap: 12px; }
-          .gap-4 { gap: 16px; }
-          .gap-6 { gap: 24px; }
-          .gap-x-4 { column-gap: 16px; }
-          .space-y-1 > * + * { margin-top: 4px; }
-          .space-y-2 > * + * { margin-top: 8px; }
-          .space-y-3 > * + * { margin-top: 12px; }
-          .space-y-4 > * + * { margin-top: 16px; }
-          .space-y-8 > * + * { margin-top: 32px; }
-          .grid { display: grid; gap: 12px; }
-          .sm\\:grid-cols-2 { grid-template-columns: 1fr 1fr; }
-          .sm\\:grid-cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
-          .text-sm { font-size: 9pt; }
-          .text-xs { font-size: 8pt; }
-          .text-lg { font-size: 14pt; }
-          .text-2xl { font-size: 18pt; }
-          .text-4xl { font-size: 24pt; }
-          .font-bold { font-weight: 700; }
-          .font-semibold { font-weight: 600; }
-          .font-medium { font-weight: 500; }
-          .text-center { text-align: center; }
-          .text-right { text-align: right; }
-          .text-primary { color: #059669; }
-          .text-base-content\\/50 { color: #9ca3af; }
-          .text-base-content\\/60 { color: #6b7280; }
-          .text-base-content\\/70 { color: #6b7280; }
-          .border-b { border-bottom: 1px solid #e5e7eb; }
-          .border-t { border-top: 1px solid #e5e7eb; }
-          .border-l-2 { border-left: 2px solid #059669; }
-          .border-primary { border-color: #059669; }
-          .border-base-300 { border-color: #e5e7eb; }
-          .rounded-2xl { border-radius: 12px; }
-          .rounded-lg { border-radius: 8px; }
-          .rounded-full { border-radius: 999px; }
-          .p-8 { padding: 32px; }
-          .p-3 { padding: 12px; }
-          .p-4 { padding: 16px; }
-          .pl-4 { padding-left: 16px; }
-          .pt-2 { padding-top: 8px; }
-          .pt-4 { padding-top: 16px; }
-          .pb-6 { padding-bottom: 24px; }
-          .mb-2 { margin-bottom: 8px; }
-          .mb-3 { margin-bottom: 12px; }
-          .mb-6 { margin-bottom: 24px; }
-          .mb-8 { margin-bottom: 32px; }
-          .mt-1 { margin-top: 4px; }
-          .mt-2 { margin-top: 8px; }
-          .mt-3 { margin-top: 12px; }
-          .w-full { width: 100%; }
-          .w-20 { width: 80px; }
-          .w-12 { width: 48px; }
-          .w-10 { width: 40px; }
-          .h-2\\.5 { height: 10px; }
-          .shrink-0 { flex-shrink: 0; }
-          .flex-1 { flex: 1; }
-          .flex-wrap { flex-wrap: wrap; }
-          .whitespace-nowrap { white-space: nowrap; }
-          .leading-relaxed { line-height: 1.6; }
-          .bg-primary\\/10 { background: #d1fae5; }
-          .bg-base-200 { background: #f3f4f6; }
-          .bg-base-200\\/60 { background: #f9fafb; }
-          .bg-base-300 { background: #e5e7eb; }
-          .ring { }
-          .ring-primary { box-shadow: 0 0 0 3px #059669; }
-          .ring-offset-base-100 { }
-          .ring-offset-2 { }
-          .shadow-xl { }
-          .avatar img { width: 80px; height: 80px; object-fit: cover; border-radius: 999px; }
-          .badge {
-            display: inline-block; padding: 2px 10px; font-size: 8pt;
-            background: #d1fae5; color: #059669; border-radius: 999px;
-          }
-          h1, h2, h3, h4, h5 { color: #111827; }
-          h1 { font-size: 20pt; }
-          p { margin: 0; }
-          ul { margin: 0; padding: 0; list-style: none; }
-          li { margin: 0; padding: 0; }
-          img { max-width: 100%; }
-        </style>
-      </head>
-      <body>
-        <div class="p-8" style="background: white; border-radius: 12px; border: 1px solid #e5e7eb; margin: 0;">
-          ${content}
-        </div>
-      </body>
-      </html>
-    `);
-    printWindow.document.close();
-    printWindow.focus();
-    setTimeout(() => printWindow.print(), 500);
-  };
-
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-4xl font-bold">Curriculum Vitae</h1>
-          <p className="text-base-content/60 mt-1">Kodjo AMOUZOU</p>
-        </div>
-        <button onClick={downloadPDF} className="btn btn-primary gap-2">
-          <Printer size={18} />
-          Télécharger PDF
-        </button>
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold">Curriculum Vitae</h1>
+        <p className="text-base-content/60 mt-1">Kodjo AMOUZOU</p>
       </div>
 
-      <div ref={cvRef} className="bg-base-100 rounded-2xl border border-base-300 p-8 space-y-8">
+      <div className="bg-base-100 rounded-2xl border border-base-300 p-8 space-y-8">
         <div className="flex items-center gap-6 pb-6 border-b border-base-300">
           <div className="avatar">
             <div className="w-20 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
@@ -207,7 +77,6 @@ export default function Cv() {
             </div>
           </div>
           <div className="text-xs text-base-content/50 text-right leading-relaxed">
-            <p>Né le 13/08/2001</p>
             <p>Célibataire</p>
             <p>Nationalité togolaise</p>
           </div>
