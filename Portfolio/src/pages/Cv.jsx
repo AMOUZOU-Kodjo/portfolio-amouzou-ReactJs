@@ -320,6 +320,7 @@ export default function Cv() {
             <p><strong>GestDoc</strong> — Plateforme de gestion de documents scolaires (React, Express, PostgreSQL)</p>
             <p><strong>ETDV Église</strong> — Site web officiel avec dashboard admin (React, Express, PostgreSQL, Cloudinary)</p>
             <p><strong>MathFunc Studio</strong> — Étude de fonctions mathématiques (React, math.js, KaTeX, Chart.js)</p>
+            <p><strong>SiteVideo</strong> — Gestion et vente de contenu multimédia (React, Express, PostgreSQL, JWT, Cloudinary)</p>
           </div>
         </section>
 

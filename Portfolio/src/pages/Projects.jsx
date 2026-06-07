@@ -25,6 +25,14 @@ const projects = [
     github: "https://github.com/AMOUZOU-Kodjo/Etude-de-fonctions",
     demo: "https://etude-de-fonctions.onrender.com",
   },
+  {
+    title: "SiteVideo",
+    subtitle: "Plateforme de gestion de contenu multimédia",
+    desc: "Plateforme fullstack de gestion et vente de contenu numérique (vidéos, PDF, audio) avec authentification JWT, catalogue filtré, bibliothèque personnelle, intégration YouTube, dashboard admin et système de rôles.",
+    techs: ["React", "Express", "PostgreSQL", "Tailwind CSS", "DaisyUI", "JWT", "Cloudinary", "YouTube API", "Recharts"],
+    github: "https://github.com/AMOUZOU-Kodjo/sitevideo",
+    demo: null,
+  },
 ];
 
 export default function Projects() {
