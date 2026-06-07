@@ -115,7 +115,7 @@ function SkillBar({ label, percent, color = "bg-primary" }) {
 
 export default function Cv() {
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-6xl mx-auto">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-4xl font-bold">Curriculum Vitae</h1>

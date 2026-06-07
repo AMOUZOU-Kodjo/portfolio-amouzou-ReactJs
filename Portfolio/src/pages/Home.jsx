@@ -36,7 +36,7 @@ export default function Home() {
   }, [char, deleting, index]);
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center">
+    <div className="max-w-6xl flex items-center justify-center">
       <div className="flex flex-col lg:flex-row items-center gap-12">
         <div className="relative">
           <div className="avatar">
