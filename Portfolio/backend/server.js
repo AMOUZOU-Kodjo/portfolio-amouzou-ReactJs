@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import sgMail from "@sendgrid/mail";
+import { Resend } from "resend";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -20,13 +20,12 @@ app.use(express.json());
 const distPath = path.join(__dirname, "..", "dist");
 app.use(express.static(distPath));
 
-let emailReady = false;
-if (process.env.SENDGRID_API_KEY && process.env.EMAIL_USER) {
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  emailReady = true;
-  console.log("Email configuré ✅ (SendGrid)");
+let resend = null;
+if (process.env.RESEND_API_KEY) {
+  resend = new Resend(process.env.RESEND_API_KEY);
+  console.log("Email configuré ✅ (Resend)");
 } else {
-  console.log("Email non configuré ⚠️ (SENDGRID_API_KEY manquant)");
+  console.log("Email non configuré ⚠️ (RESEND_API_KEY manquant)");
 }
 
 app.post("/api/contact", async (req, res) => {
@@ -36,17 +35,17 @@ app.post("/api/contact", async (req, res) => {
     return res.status(400).json({ error: "Nom, email et message sont requis." });
   }
 
-  if (!emailReady) {
+  if (!resend) {
     return res.status(500).json({
       error: "Service d'envoi non configuré. Contactez l'administrateur.",
     });
   }
 
   try {
-    await sgMail.send({
-      from: process.env.EMAIL_USER,
+    const { error } = await resend.emails.send({
+      from: `Portfolio <onboarding@resend.dev>`,
       replyTo: email,
-      to: process.env.EMAIL_USER,
+      to: process.env.EMAIL_USER || email,
       subject: subject
         ? `[Portfolio] ${subject} — de ${name}`
         : `[Portfolio] Nouveau message de ${name}`,
@@ -62,9 +61,14 @@ app.post("/api/contact", async (req, res) => {
         </div>`,
     });
 
+    if (error) {
+      console.error("Erreur email:", error);
+      return res.status(500).json({ error: "Erreur lors de l'envoi." });
+    }
+
     res.json({ success: true, message: "Message envoyé avec succès !" });
   } catch (err) {
-    console.error("Erreur email:", err.response?.body || err.message);
+    console.error("Erreur email:", err.message);
     res.status(500).json({ error: "Erreur lors de l'envoi. Vérifiez les identifiants email." });
   }
 });
@@ -72,7 +76,7 @@ app.post("/api/contact", async (req, res) => {
 app.get("/api/health", (_req, res) => {
   res.json({
     status: "ok",
-    email: emailReady ? "configuré" : "non configuré",
+    email: resend ? "configuré" : "non configuré",
   });
 });
 
