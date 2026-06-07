@@ -105,7 +105,7 @@ export default function Home() {
             </FadeIn>
 
             <FadeIn delay={400}>
-              <h1 className="text-5xl md:text-7xl font-bold leading-[1.1]">
+              <h1 className="text-5xl md:text-5xl font-bold leading-[1.1]">
                 Kodjo{" "}
                 <span className="bg-gradient-to-r from-primary via-primary/80 to-emerald-400 bg-clip-text text-transparent">
                   AMOUZOU
