@@ -123,8 +123,8 @@ export default function Cv() {
         </div>
       </div>
 
-      <div className="bg-base-100 rounded-2xl border border-base-300 shadow-xl overflow-hidden">
-        <AnimatedSection className="bg-gradient-to-r from-primary/10 via-primary/5 to-base-100 p-8 border-b border-base-300">
+      <div>
+        <AnimatedSection className="bg-gradient-to-r from-primary/10 via-primary/5 to-base-100 py-8 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 mb-8 rounded-xl">
           <div className="flex items-center gap-6">
             <div className="avatar">
               <div className="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 transition-transform duration-500 hover:scale-105">
@@ -147,7 +147,7 @@ export default function Cv() {
           </div>
         </AnimatedSection>
 
-        <div className="p-8 space-y-10">
+        <div className="space-y-10">
           <AnimatedSection delay={100}>
             <section>
               <h3 className="text-lg font-semibold flex items-center gap-2 mb-5 text-primary">
