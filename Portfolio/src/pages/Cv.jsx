@@ -58,6 +58,10 @@ const projects = [
   { name: "ETDV Église", desc: "Site web officiel avec dashboard admin", tech: "React, Express, PostgreSQL, Cloudinary", url: "https://github.com/AMOUZOU-Kodjo/eglise-etdv" },
   { name: "MathFunc Studio", desc: "Étude de fonctions mathématiques", tech: "React, math.js, KaTeX, Chart.js", url: "https://github.com/AMOUZOU-Kodjo/Etude-de-fonctions" },
   { name: "SiteVideo", desc: "Gestion et vente de contenu multimédia", tech: "React, Express, PostgreSQL, JWT, Cloudinary", url: "https://github.com/AMOUZOU-Kodjo/sitevideo" },
+  { name: "Formation Python Web", desc: "Plateforme interactive d'apprentissage de Python", tech: "React, Supabase, CodeMirror, Tailwind CSS", url: "https://github.com/AMOUZOU-Kodjo/formation-python-web" },
+  { name: "Formation Python Complète", desc: "Formation Python du débutant à l'expert (36 modules)", tech: "Python, Jupyter Notebook, FastAPI, Data Science", url: "https://github.com/AMOUZOU-Kodjo/FormationCompleteProgrammationPython" },
+  { name: "Gestion Garage", desc: "Application de gestion de garage automobile", tech: "React, Express, Tailwind CSS, Framer Motion", url: "https://github.com/AMOUZOU-Kodjo/garage" },
+  { name: "Mon Archive", desc: "Plateforme d'archivage de documents", tech: "React, Express, Tailwind CSS, React Dropzone", url: "https://github.com/AMOUZOU-Kodjo/Mon-archive" },
 ];
 
 function AnimatedSection({ children, className = "", delay = 0 }) {
