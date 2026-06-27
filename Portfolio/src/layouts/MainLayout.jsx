@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { Home, User, Briefcase, Mail, Moon, Sun, ArrowUp, FileText } from "lucide-react";
+import { Home, User, Briefcase, Mail, Moon, Sun, ArrowUp, FileText, Download } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const navItems = [
@@ -9,6 +9,37 @@ const navItems = [
   { to: "/cv", label: "CV", icon: FileText },
   { to: "/contact", label: "Contact", icon: Mail },
 ];
+
+function InstallBtn() {
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShow(true);
+    };
+    window.addEventListener("beforeinstallprompt", handler);
+    return () => window.removeEventListener("beforeinstallprompt", handler);
+  }, []);
+
+  const install = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === "accepted") setShow(false);
+    setDeferredPrompt(null);
+  };
+
+  if (!show) return null;
+
+  return (
+    <button onClick={install} className="btn btn-primary btn-sm gap-1.5" title="Installer l'application">
+      <Download size={16} /> Installer
+    </button>
+  );
+}
 
 export default function MainLayout() {
   const [theme, setTheme] = useState(() => {
@@ -76,6 +107,7 @@ export default function MainLayout() {
           >
             {theme === "emerald" ? <Moon size={20} /> : <Sun size={20} />}
           </button>
+          <InstallBtn />
         </div>
       </nav>
 
