@@ -23,41 +23,38 @@ const contactInfo = [
 
 const API_URL = import.meta.env.VITE_API_URL || "";
 
-export default function Contact() {
-  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
-  const [status, setStatus] = useState({ type: "", text: "" });
-  const [loading, setLoading] = useState(false);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setStatus({ type: "", text: "" });
 
-  const handleChange = (e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+  // Ajout d'un timeout manuel pour le serveur Render lent
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 secondes d'attente
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setStatus({ type: "", text: "" });
-
-    try {
-      const url = `${API_URL}/api/contact`;
-      console.log("Envoi vers:", url);
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setStatus({ type: "success", text: "Message envoyé avec succès !" });
-        setForm({ name: "", email: "", subject: "", message: "" });
-      } else {
-        setStatus({ type: "error", text: data.error || "Une erreur est survenue." });
-      }
-    } catch {
-      setStatus({ type: "error", text: "Impossible de contacter le serveur." });
-    } finally {
-      setLoading(false);
+  try {
+    const res = await fetch(`${API_URL}/api/contact`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+      signal: controller.signal
+    });
+    
+    clearTimeout(timeoutId);
+    
+    const data = await res.json();
+    if (res.ok) {
+      setStatus({ type: "success", text: "Message envoyé avec succès !" });
+      setForm({ name: "", email: "", subject: "", message: "" });
+    } else {
+      setStatus({ type: "error", text: data.error || "Une erreur est survenue." });
     }
-  };
+  } catch (err) {
+    setStatus({ type: "error", text: err.name === 'AbortError' ? "Le serveur met trop de temps à répondre (réveillez-le !)" : "Impossible de contacter le serveur." });
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="max-w-6xl mx-auto">
